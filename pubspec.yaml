@@ -1,14 +1,12 @@
 name: batch_rename
-description: A sample command-line application.
+description: A CLI tool to help batch renaming files.
 version: 1.0.0
 # homepage: https://www.example.com
 
 environment:
   sdk: '>=2.14.4 <3.0.0'
 
-
 dependencies:
-  # path: ^1.8.0
   args: ^2.3.0
 
 dev_dependencies:

@@ -1,18 +1,32 @@
 import 'package:batch_rename/batch_rename.dart' as batch_rename;
 import 'package:args/args.dart' show ArgParser, ArgResults;
-// import 'dart:io';
 
 // usage: batch-rename.exe substring [new_string] [-h] [-n] [-r] [-p]
 
 /// Batch rename files, stripping a given substring
 
 /// positional arguments:
-///   path        Path to directory with files to rename. Defaults to current working directory.
+//   path        Path to directory with files to rename. Defaults to current working directory.
 ///   substring   Substring to strip or replace out of every file in path.
 ///   new_string  String to replace for every matching substring. Defaults to an empty string.
 /// optional arguments:
-///   -h, --help  show this help message and exit
+///   -h, --help  show this help message and exit.
 ///   -n          Rename all files to substring and number them accordingly.
+///   -r          Batch rename recursively in subdirectories.
+
+void usage() {
+  print("""
+
+usage: batch-rename.exe substring [new_string] [-h] [-n] [-r]
+
+Batch rename files, stripping a given substring
+
+positional arguments:
+path        Path to directory with files to rename. Defaults to current working directory.
+substring   Substring to strip or replace out of every file in path.
+new_string  String to replace for every matching substring. Defaults to an empty string.
+  """);
+}
 
 void main(List<String> arguments) async {
   ArgParser parser = ArgParser(allowTrailingOptions: true);
@@ -35,9 +49,11 @@ void main(List<String> arguments) async {
 
   if (args.rest.length > 2) {
     print('Too many arguments.');
+    usage();
     print(parser.usage);
   } else if (args.rest.isEmpty) {
     print('No arguments provided.');
+    usage();
     print(parser.usage);
   } else {
     String substring = args.rest[0];
