@@ -24,9 +24,6 @@ Future rename(String path, String substring, String newString, bool recursive,
         List<String> path = file.uri.pathSegments;
         String newPath = path.sublist(0, path.length - 1).join('/');
 
-        // print(
-        //     'Path: ${path.join('/')} | NewPath: $newPath | name: $name');
-
         await file.rename(newPath +
             Platform.pathSeparator +
             filename.replaceAll(regex, finalString));

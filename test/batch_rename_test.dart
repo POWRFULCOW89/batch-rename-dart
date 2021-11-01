@@ -3,9 +3,6 @@ import 'package:test/test.dart';
 import 'dart:io';
 
 void main() {
-  // test('calculate', () {
-  //   // expect(calculate(), 42);
-  // });
   Directory dir = Directory.current
       .createTempSync('test' + Platform.pathSeparator + 'test_rename');
 
@@ -95,7 +92,7 @@ void main() {
     });
 
     test('Correctly replaces substrings with RegEx recursively', () async {
-      int n = await rename(dir.path, 'F...', 'Entry [123]', true, false);
+      int n = await rename(dir.path, 'F...', 'Entry[123]', true, false);
       expect(n, equals(3));
 
       final files = dir.listSync(recursive: true);
@@ -107,19 +104,19 @@ void main() {
       expect(count, equals(n));
     });
 
-    // test('Correctly replaces substrings with RegEx numbered recursively',
-    //     () async {
-    //   int n = await rename(dir.path, '\\w', 'Foo', true, true);
-    //   expect(n, equals(8));
+    test('Correctly strips substrings with RegEx numbered recursively',
+        () async {
+      int n = await rename(dir.path, '\\[(.*?)\\]\\d*', '', true, true);
+      expect(n, equals(3));
 
-    //   final files = dir.listSync(recursive: true);
-    //   int count = 0;
-    //   files.asMap().forEach((i, f) {
-    //     String name = f.uri.pathSegments.last;
-    //     if (name.startsWith('Foo')) count++;
-    //   });
-    //   expect(count, equals(n));
-    // });
+      final files = dir.listSync(recursive: true);
+      int count = 0;
+      files.asMap().forEach((i, f) {
+        String name = f.uri.pathSegments.last;
+        if (name.startsWith('Entry')) count++;
+      });
+      expect(count, equals(n));
+    });
   });
 
   tearDownAll(() {
