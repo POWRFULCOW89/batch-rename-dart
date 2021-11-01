@@ -117,6 +117,14 @@ void main() {
       });
       expect(count, equals(n));
     });
+
+    test('Correctly change file extension.', () async {
+      int n = await rename(dir.path, 'txt', 'csv', false, false);
+      expect(n, equals(5));
+      dir.listSync().forEach((f) {
+        expect(f.uri.pathSegments.last.contains('txt'), isFalse);
+      });
+    });
   });
 
   tearDownAll(() {
